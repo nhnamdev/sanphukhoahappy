@@ -202,52 +202,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 })();
 
 
-/* ─── APPOINTMENT FORM ──────────────────────────────────── */
-(function () {
-  const form    = document.getElementById('appointment-form');
-  const success = document.getElementById('form-success');
-  const submitBtn = document.getElementById('form-submit-btn');
-  if (!form) return;
-
-  // Set min date to today
-  const dateInput = document.getElementById('appointment-date');
-  if (dateInput) {
-    const today = new Date();
-    const yyyy  = today.getFullYear();
-    const mm    = String(today.getMonth() + 1).padStart(2, '0');
-    const dd    = String(today.getDate()).padStart(2, '0');
-    dateInput.min = `${yyyy}-${mm}-${dd}`;
-  }
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Basic validation
-    let valid = true;
-    form.querySelectorAll('[required]').forEach(field => {
-      if (!field.value.trim()) {
-        field.style.borderColor = '#f43f5e';
-        valid = false;
-        field.addEventListener('input', () => field.style.borderColor = '', { once: true });
-      }
-    });
-
-    if (!valid) return;
-
-    // Simulate submission
-    const btnText = submitBtn.querySelector('.btn-text');
-    btnText.textContent = 'Đang gửi...';
-    submitBtn.disabled = true;
-
-    setTimeout(() => {
-      success.classList.add('show');
-      form.reset();
-      btnText.textContent = 'Đặt lịch hẹn';
-      submitBtn.disabled = false;
-      setTimeout(() => success.classList.remove('show'), 6000);
-    }, 1200);
-  });
-})();
 
 
 /* ─── SCROLL REVEAL (SIMPLE) ────────────────────────────── */
