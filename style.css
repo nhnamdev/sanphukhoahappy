@@ -809,6 +809,19 @@ ul { list-style: none; }
   background: var(--primary-dark);
   transform: translateY(-2px);
 }
+.service-detail-extra-image {
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.service-detail-extra-image img {
+  width: 100%;
+  max-height: 260px;
+  display: block;
+  object-fit: cover;
+}
 
 
 /* ============================================================
@@ -1393,8 +1406,14 @@ ul { list-style: none; }
 
 .blog-img {
   position: relative;
+  display: block;
   height: 220px;
   overflow: hidden;
+}
+.blog-img-link { cursor: pointer; }
+.blog-img-link:focus-visible {
+  outline: 3px solid rgba(219,39,119,.35);
+  outline-offset: -3px;
 }
 .blog-img img {
   width: 100%; height: 100%;
@@ -1459,6 +1478,45 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 .blog-read-more:hover { gap: 12px; }
+
+.article-modal-dialog {
+  width: min(1060px, 100%);
+}
+.article-modal-media {
+  min-height: 520px;
+}
+.article-modal-media img {
+  object-position: center;
+}
+.article-modal-content {
+  gap: 16px;
+  justify-content: flex-start;
+}
+.article-modal-content p {
+  color: var(--text);
+  line-height: 1.75;
+}
+.article-detail-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding-left: 22px;
+}
+.article-detail-list li {
+  color: var(--text);
+  line-height: 1.65;
+  padding-left: 4px;
+}
+.article-detail-list strong {
+  display: block;
+  color: var(--dark);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.article-detail-list span {
+  display: block;
+}
 
 
 /* ============================================================
@@ -1762,6 +1820,7 @@ ul { list-style: none; }
   .service-modal-dialog { grid-template-columns: 1fr; padding: 22px; }
   .service-detail-media { min-height: 240px; }
   .doctor-profile-media { min-height: 360px; }
+  .article-modal-media { min-height: 320px; }
   .service-detail-content h3 { font-size: 24px; }
   .blog-grid { grid-template-columns: 1fr; }
   .doctors-grid { grid-template-columns: 1fr 1fr; }
@@ -1793,7 +1852,9 @@ ul { list-style: none; }
   .service-modal-dialog { max-height: calc(100vh - 24px); padding: 18px; }
   .service-detail-media { min-height: 210px; border-radius: 14px; }
   .doctor-profile-media { min-height: 280px; }
+  .article-modal-media { min-height: 220px; }
   .service-detail-content h3 { font-size: 21px; }
+  .article-detail-list { padding-left: 18px; }
   .service-detail-list li { font-size: 14px; }
   .service-detail-cta { width: 100%; }
   .counter-info h3 { font-size: 36px; }

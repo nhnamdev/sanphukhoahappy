@@ -122,7 +122,7 @@
 /* ─── SMOOTH SCROLL ─────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    if (this.hasAttribute('data-service-detail-link') || this.hasAttribute('data-profile-detail-link')) return;
+    if (this.hasAttribute('data-service-detail-link') || this.hasAttribute('data-profile-detail-link') || this.hasAttribute('data-article-detail-link')) return;
     const target = document.querySelector(this.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
@@ -134,7 +134,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 /* SERVICE DETAIL */
 (function () {
-  const triggers = document.querySelectorAll('[data-service-detail-link], [data-profile-detail-link]');
+  const triggers = document.querySelectorAll('[data-service-detail-link], [data-profile-detail-link], [data-article-detail-link]');
   let lastFocusedElement = null;
   if (!triggers.length) return;
 
