@@ -104,13 +104,27 @@
   const close   = document.getElementById('mobile-close');
   const menu    = document.getElementById('mobile-menu');
   const overlay = document.getElementById('mobile-overlay');
+  const servicesToggle = document.querySelector('[data-mobile-services-toggle]');
+  const servicesItem = servicesToggle ? servicesToggle.closest('.mobile-services-item') : null;
 
   function openMenu()  { menu.classList.add('active'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-  function closeMenu() { menu.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+  function closeMenu() {
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    if (servicesItem && servicesToggle) {
+      servicesItem.classList.remove('is-open');
+      servicesToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
 
   toggle  && toggle.addEventListener('click', openMenu);
   close   && close.addEventListener('click', closeMenu);
   overlay && overlay.addEventListener('click', closeMenu);
+  servicesToggle && servicesToggle.addEventListener('click', () => {
+    const isOpen = servicesItem.classList.toggle('is-open');
+    servicesToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
 
   // Close when a mobile nav link is clicked
   document.querySelectorAll('.mobile-nav-links a, .mobile-cta').forEach(a => {
