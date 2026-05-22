@@ -122,6 +122,7 @@
 /* ─── SMOOTH SCROLL ─────────────────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
+    if (this.hasAttribute('data-service-detail-link') || this.hasAttribute('data-profile-detail-link')) return;
     const target = document.querySelector(this.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
@@ -130,6 +131,72 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
+
+/* SERVICE DETAIL */
+(function () {
+  const triggers = document.querySelectorAll('[data-service-detail-link], [data-profile-detail-link]');
+  let lastFocusedElement = null;
+  if (!triggers.length) return;
+
+  function getModalFromTrigger(trigger) {
+    const targetId = trigger.dataset.modalTarget || trigger.getAttribute('href');
+    return targetId ? document.querySelector(targetId) : null;
+  }
+
+  function openModal(modal, event) {
+    const dialog = modal ? modal.querySelector('.service-modal-dialog') : null;
+    if (!modal || !dialog) return;
+    if (event) event.preventDefault();
+    lastFocusedElement = document.activeElement;
+    closeOpenModal();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    dialog.focus();
+  }
+
+  function closeOpenModal() {
+    const modal = document.querySelector('.service-modal.is-open');
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (window.location.hash === `#${modal.id}`) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      openModal(getModalFromTrigger(trigger), event);
+    });
+  });
+
+  document.querySelectorAll('[data-service-modal-close]').forEach(button => {
+    button.addEventListener('click', () => {
+      closeOpenModal();
+      if (lastFocusedElement && lastFocusedElement.focus) {
+        lastFocusedElement.focus();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && document.querySelector('.service-modal.is-open')) {
+      closeOpenModal();
+      if (lastFocusedElement && lastFocusedElement.focus) {
+        lastFocusedElement.focus();
+      }
+    }
+  });
+
+  if (window.location.hash) {
+    const modal = document.querySelector(window.location.hash);
+    if (modal && modal.classList.contains('service-modal')) {
+      openModal(modal);
+    }
+  }
+})();
 
 
 /* ─── COUNTER ANIMATION ─────────────────────────────────── */
