@@ -4,6 +4,38 @@
 
 'use strict';
 
+/* DOCTOR SCHEDULE FROM SUPABASE */
+(async function () {
+  const supabaseFactory = window.supabase;
+  if (!supabaseFactory || !supabaseFactory.createClient) return;
+
+  const scheduleCells = document.querySelectorAll('[data-schedule-day]');
+  if (!scheduleCells.length) return;
+
+  const supabaseUrl = 'https://jbowxpffvkoykhjgieop.supabase.co';
+  const supabaseKey = 'sb_publishable_j_oEIq8bP-s7NrHeMLfXiw_MTfCliLB';
+  const client = supabaseFactory.createClient(supabaseUrl, supabaseKey);
+
+  const { data, error } = await client
+    .from('doctor_work_schedules')
+    .select('day_key, day_label, schedule_text')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (error || !Array.isArray(data)) {
+    console.warn('Could not load doctor schedule from Supabase.', error);
+    return;
+  }
+
+  data.forEach(item => {
+    const cell = document.querySelector(`[data-schedule-day="${item.day_key}"]`);
+    if (cell && item.schedule_text) cell.textContent = item.schedule_text;
+
+    const heading = document.querySelector(`[data-schedule-label="${item.day_key}"]`);
+    if (heading && item.day_label) heading.textContent = item.day_label;
+  });
+})();
+
 /* ─── HERO SLIDER ─────────────────────────────────────────── */
 (function () {
   const slides = document.querySelectorAll('.hero-slide');
